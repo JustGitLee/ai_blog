@@ -5,7 +5,6 @@ from keras.preprocessing.text import Tokenizer
 from keras.layers import Dropout
 from keras.utils import to_categorical
 
-# Загрузка и подготовка данных
 filename = "blog.txt"
 with open(filename, encoding='utf-8') as f:
     text = f.read().lower()
@@ -14,7 +13,9 @@ tokenizer.fit_on_texts(text)
 encoded_text = tokenizer.texts_to_sequences([text])[0]
 vocab_size = len(tokenizer.word_index)
 
-# Создание последовательностей входных и выходных данных
+if vocab_size == len(tokenizer.word_index) + 1:
+    vocab_size = len(tokenizer.word_index) + 1
+
 seq_length = 100
 
 def data_generator(batch_size):
@@ -30,7 +31,7 @@ def data_generator(batch_size):
                 X = []
                 y = []
 
-embedding_size = 50 # Размерность векторов символов
+embedding_size = 50
 
 model = Sequential()
 model.add(LSTM(128, input_shape=(seq_length, vocab_size + 1)))
@@ -45,7 +46,6 @@ model.fit(data_generator(batch_size), steps_per_epoch=steps_per_epoch , epochs=1
 
 model.save('my_model.h5')
 
-# Генерация нового текста с помощью обученной модели
 generated_text = ""
 seed_text = text[:seq_length]
 for _ in range(200):
