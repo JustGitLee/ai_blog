@@ -7,7 +7,6 @@ from keras.utils import to_categorical
 from keras.models import load_model
 from keras import regularizers
 
-
 filename = "blog.txt"
 with open(filename, encoding='utf-8') as f:
     text = f.read().lower()
@@ -44,7 +43,7 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer='adam')
 batch_size=64
 steps_per_epoch=len(encoded_text)//batch_size
 
-model.fit(data_generator(batch_size), steps_per_epoch=steps_per_epoch , epochs=15)
+model.fit(data_generator(batch_size), steps_per_epoch=steps_per_epoch , epochs=10)
 
 model.save('my_model.h5')
 # model = load_model('my_model.h5')
