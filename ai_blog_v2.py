@@ -43,7 +43,7 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer='adam')
 batch_size=64
 steps_per_epoch=len(encoded_text)//batch_size
 
-model.fit(data_generator(batch_size), steps_per_epoch=steps_per_epoch , epochs=10)
+model.fit(data_generator(batch_size), steps_per_epoch=steps_per_epoch , epochs=8)
 
 model.save('my_model.h5')
 # model = load_model('my_model.h5')
@@ -54,7 +54,7 @@ seed_text = text[:seq_length]
 
 for _ in range(100):
     encoded_seed_text = tokenizer.texts_to_sequences([seed_text])[0]
-    encoded_seed_text_one_hot = np.zeros((1, seq_length, vocab_size+2))
+    encoded_seed_text_one_hot = np.zeros((1, seq_length, vocab_size+1))
     for i in range(seq_length):
         encoded_seed_text_one_hot[0, i, encoded_seed_text[i]] = 1
         prediction_probs = model.predict(encoded_seed_text_one_hot)[0]
